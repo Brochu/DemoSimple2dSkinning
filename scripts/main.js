@@ -2,12 +2,13 @@ window.onload = init;
 can = document.getElementById('myCanvas');
 ctx = can.getContext('2d');
 
+articulations = [];
+selectedArticulation = -1;
+
 function init()
 {
     can.style.background = 'Grey';
-    console.log('TESTING');
-    console.log(can);
-    drawTest();
+    test();
 }
 
 function clearCanvas()
@@ -20,22 +21,45 @@ function clearCanvas()
     ctx.restore(); // same operation as popmatrix with opengl
 }
 
-function drawTest()
+function test()
 {
-    ctx.strokeStyle='Black';
-    ctx.fillStyle='Yellow';
-
-    ctx.beginPath();
-    ctx.arc(125, 125, 10, 0, (2 * Math.PI), false);
-    ctx.stroke();
-    ctx.fill();
+    myTest = new Articulation();
+    console.log(myTest);
+    myTest.drawArticulation(ctx);
 }
 
 function update()
 {
     clearCanvas();
+
+    for(i in articulations)
+    {
+        // TODO:ajout du dessin des articulations
+        console.log(articulations[i]);
+    }
 }
 
 function Articulation()
 {
+    this.id = 0
+    this.pos = [200,200];
+    this.rotation = 0;
+    this.parent = null;
+    this.enfants = [];
+
+    var color = 'Cyan';
+    var selectedColor = 'Red';
+    var radius = 5;
+
+    this.drawArticulation = function(ctx)
+    {
+        ctx.beginPath();
+        ctx.strokeStyle='Black';
+        ctx.lineWidth=3;
+        ctx.fillStyle=color;
+
+        ctx.arc(this.pos[0], this.pos[1], radius, 0, (2*Math.PI));
+        ctx.stroke();
+        ctx.fill();
+    }
 }
