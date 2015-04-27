@@ -8,7 +8,11 @@ selectedArticulation = -1;
 function init()
 {
     can.style.background = 'Grey';
+    can.addEventListener('mousedown', onCanvasClicked, false);
+    can.addEventListener('mouseup', onCanvasReleased, false);
     test();
+
+    window.requestAnimationFrame(update);
 }
 
 function clearCanvas()
@@ -21,11 +25,24 @@ function clearCanvas()
     ctx.restore(); // same operation as popmatrix with opengl
 }
 
-function test()
+function onCanvasClicked(e)
 {
-    myTest = new Articulation();
-    console.log(myTest);
-    myTest.drawArticulation(ctx);
+    // Mouse position is (e.offsetX, e.offsetY)
+    console.log('click click');
+    // find closest point
+    for(i in articulations)
+    {
+
+    }
+
+    selectedArticulation = 0;
+    // ajouter l'event de mouse move
+}
+
+function onCanvasReleased(e)
+{
+    selectedArticulation = -1;
+    // enlever l'event de mouse move
 }
 
 function update()
@@ -35,14 +52,24 @@ function update()
     for(i in articulations)
     {
         // TODO:ajout du dessin des articulations
-        console.log(articulations[i]);
+        articulations[i].drawArticulation(ctx);
     }
+
+    window.requestAnimationFrame(update);
+}
+
+function test()
+{
+    myTest = new Articulation();
+    myTest.pos=[175,175];
+
+    articulations.push(myTest);
 }
 
 function Articulation()
 {
     this.id = 0
-    this.pos = [200,200];
+    this.pos = [175,175];
     this.rotation = 0;
     this.parent = null;
     this.enfants = [];
@@ -51,12 +78,28 @@ function Articulation()
     var selectedColor = 'Red';
     var radius = 5;
 
+    this.getPosition = function()
+    {
+        if (parent == null)
+        {
+            return this.pos;
+        }else
+        {
+            return [parent.pos[0] + this.pos[0], parent.pos[1] + this.pos[1]];
+        }
+    }
     this.drawArticulation = function(ctx)
     {
         ctx.beginPath();
         ctx.strokeStyle='Black';
         ctx.lineWidth=3;
-        ctx.fillStyle=color;
+        if (selectedArticulation == this.id)
+        {
+            ctx.fillStyle=selectedColor;
+        }else
+        {
+            ctx.fillStyle=color;
+        }
 
         ctx.arc(this.pos[0], this.pos[1], radius, 0, (2*Math.PI));
         ctx.stroke();
