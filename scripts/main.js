@@ -33,6 +33,26 @@ function onCanvasClicked(e)
     x = e.offsetX;
     y = e.offsetY;
 
+    skip = false;
+    if (selectedArticulation != -1)
+    {
+        if (310 < x && 340 > x
+        && 10 < y && 40 > y)
+        {
+            articulations[selectedArticulation].rotation++;
+            skip = true;
+        }
+
+        if (310 < x && 340 > x
+        && 70 < y && 100 > y)
+        {
+            articulations[selectedArticulation].rotation--;
+            skip = true;
+        }
+    }
+
+    if (skip) return;
+
     // find clicked point
     tempArticulation = -1;
     for(i in articulations)
