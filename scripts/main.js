@@ -31,7 +31,6 @@ function onCanvasClicked(e)
     x = e.offsetX;
     y = e.offsetY;
 
-    console.log('X:' + x + ', Y:' + y);
     // find clicked point
     tempArticulation = -1;
     for(i in articulations)
@@ -53,9 +52,7 @@ function onCanvasClicked(e)
         }
     }
 
-    console.log(xfine + ', ' + yfine);
     selectedArticulation = tempArticulation;
-    console.log(selectedArticulation);
 }
 
 function update()
