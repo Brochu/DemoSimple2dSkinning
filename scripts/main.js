@@ -6,6 +6,8 @@ articulations = [];
 selectedArticulation = -1;
 lastArticulationId = 0
 
+deg2rad = 0.0174532925;
+
 function init()
 {
     can.style.background = 'Grey';
@@ -92,7 +94,13 @@ function Articulation()
 
     this.radius = 5;
     var color = 'Cyan';
-    var selectedColor = 'Red';
+    var selectedColor = 'Yellow';
+
+    var buttonWidth = 30;
+    var buttonHeight = 30;
+    var buttonUpPos = [310,10];
+    var buttonDownPos = [310,70];
+    var buttonTextPos = [325,62];
 
     this.getPosition = function()
     {
@@ -120,5 +128,40 @@ function Articulation()
         ctx.arc(this.pos[0], this.pos[1], this.radius, 0, (2*Math.PI));
         ctx.stroke();
         ctx.fill();
+
+        ctx.translate(this.pos[0], this.pos[1]);
+        ctx.rotate(this.rotation * deg2rad);
+
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -5);
+        ctx.lineWidth=2;
+        ctx.stroke();
+
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        if (selectedArticulation == this.id)
+        {
+            this.drawButtons(ctx);
+        }
+    }
+
+    this.drawButtons = function(ctx)
+    {
+        // UI elements, buttons and angle value
+        ctx.beginPath();
+        ctx.fillStyle='Green';
+        ctx.rect(buttonUpPos[0], buttonUpPos[1], buttonWidth, buttonHeight);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle='Red';
+        ctx.rect(buttonDownPos[0], buttonDownPos[1], buttonWidth, buttonHeight);
+        ctx.fill();
+
+        ctx.font='20px verdana';
+        ctx.textAlign='center';
+        ctx.fillStyle='Black';
+        ctx.fillText(this.rotation.toString(), buttonTextPos[0], buttonTextPos[1]);
     }
 }
