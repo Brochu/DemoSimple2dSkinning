@@ -33,11 +33,28 @@ function onCanvasClicked(e)
 
     console.log('X:' + x + ', Y:' + y);
     // find clicked point
+    tempArticulation = -1;
     for(i in articulations)
     {
+        xfine = false;
+        yfine = false;
 
+        c = articulations[i];
+        if (c.pos[0] - c.radius < x && c.pos[0] + c.radius > x) {
+            xfine = true;
+        }
+        if (c.pos[1] - c.radius < y && c.pos[1] + c.radius > y) {
+            yfine = true;
+        }
+
+        if (xfine && yfine){
+            tempArticulation = c.id;
+            break;
+        }
     }
 
+    console.log(xfine + ', ' + yfine);
+    selectedArticulation = tempArticulation;
     console.log(selectedArticulation);
 }
 
@@ -65,7 +82,6 @@ function test()
     myTest.pos=[200,200];
 
     articulations.push(myTest);
-    console.log(articulations);
 }
 
 function Articulation()
@@ -77,9 +93,9 @@ function Articulation()
     this.parent = null;
     this.enfants = [];
 
+    this.radius = 5;
     var color = 'Cyan';
     var selectedColor = 'Red';
-    var radius = 5;
 
     this.getPosition = function()
     {
@@ -104,7 +120,7 @@ function Articulation()
             ctx.fillStyle=color;
         }
 
-        ctx.arc(this.pos[0], this.pos[1], radius, 0, (2*Math.PI));
+        ctx.arc(this.pos[0], this.pos[1], this.radius, 0, (2*Math.PI));
         ctx.stroke();
         ctx.fill();
     }
