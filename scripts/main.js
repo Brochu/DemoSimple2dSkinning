@@ -4,12 +4,12 @@ ctx = can.getContext('2d');
 
 articulations = [];
 selectedArticulation = -1;
+lastArticulationId = 0
 
 function init()
 {
     can.style.background = 'Grey';
     can.addEventListener('mousedown', onCanvasClicked, false);
-    can.addEventListener('mouseup', onCanvasReleased, false);
     test();
 
     window.requestAnimationFrame(update);
@@ -28,21 +28,17 @@ function clearCanvas()
 function onCanvasClicked(e)
 {
     // Mouse position is (e.offsetX, e.offsetY)
-    console.log('click click');
-    // find closest point
+    x = e.offsetX;
+    y = e.offsetY;
+
+    console.log('X:' + x + ', Y:' + y);
+    // find clicked point
     for(i in articulations)
     {
 
     }
 
-    selectedArticulation = 0;
-    // ajouter l'event de mouse move
-}
-
-function onCanvasReleased(e)
-{
-    selectedArticulation = -1;
-    // enlever l'event de mouse move
+    console.log(selectedArticulation);
 }
 
 function update()
@@ -64,11 +60,18 @@ function test()
     myTest.pos=[175,175];
 
     articulations.push(myTest);
+
+    myTest = new Articulation();
+    myTest.pos=[200,200];
+
+    articulations.push(myTest);
+    console.log(articulations);
 }
 
 function Articulation()
 {
-    this.id = 0
+    this.id = lastArticulationId
+    lastArticulationId++;
     this.pos = [175,175];
     this.rotation = 0;
     this.parent = null;
